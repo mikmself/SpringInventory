@@ -1,8 +1,10 @@
 package com.example.inventoryspring.service;
 
+import com.example.inventoryspring.Pojo.ApiResponse;
 import com.example.inventoryspring.entity.Item;
 import com.example.inventoryspring.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,27 +14,60 @@ public class ItemService {
     @Autowired
     private ItemRepository repository;
 
-    public Item saveItem(Item item){
-        return repository.save(item);
+    public ApiResponse<Item> saveItem(Item item) {
+        try {
+            Item savedItem = repository.save(item);
+            return new ApiResponse<>(HttpStatus.OK.value(), "Item saved successfully", savedItem);
+        } catch (Exception e) {
+            return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error saving item: " + e.getMessage(), null);
+        }
     }
-    public List<Item> saveItems(List<Item> items){
-        return repository.saveAll(items);
+
+    public ApiResponse<List<Item>> saveItems(List<Item> items) {
+        try {
+            List<Item> savedItems = repository.saveAll(items);
+            return new ApiResponse<>(HttpStatus.OK.value(), "Items saved successfully", savedItems);
+        } catch (Exception e) {
+            return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error saving items: " + e.getMessage(), null);
+        }
     }
-    public List<Item> getItems(){
-        return repository.findAll();
+
+    public ApiResponse<List<Item>> getItems() {
+        try {
+            List<Item> itemList = repository.findAll();
+            return new ApiResponse<>(HttpStatus.OK.value(), "Items retrieved successfully", itemList);
+        } catch (Exception e) {
+            return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error retrieving items: " + e.getMessage(), null);
+        }
     }
-    public Item getItemById(int id){
-        return repository.findById(id).orElse(null);
+
+    public ApiResponse<Item> getItemById(int id) {
+        try {
+            Item item = repository.findById(id).orElse(null);
+            return new ApiResponse<>(HttpStatus.OK.value(), "Item retrieved successfully", item);
+        } catch (Exception e) {
+            return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error retrieving item: " + e.getMessage(), null);
+        }
     }
-    public String deleteItem(int id){
-        repository.deleteById(id);
-        return "Item removed " + id;
+
+    public ApiResponse<String> deleteItem(int id) {
+        try {
+            repository.deleteById(id);
+            return new ApiResponse<>(HttpStatus.OK.value(), "Item removed successfully", "Item removed " + id);
+        } catch (Exception e) {
+            return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error deleting item: " + e.getMessage(), null);
+        }
     }
-    public Item updateItem(Item item){
-        Item existingItem = repository.findById(item.getId()).orElse(null);
-        existingItem.setName(item.getName());
-        existingItem.setDescription(item.getDescription());
-        existingItem.setCategory_id(item.getCategory_id());
-        return repository.save(existingItem);
+
+    public ApiResponse<Item> updateItem(Item item) {
+        try {
+            Item existingItem = repository.findById(item.getId()).orElse(null);
+            existingItem.setName(item.getName());
+            existingItem.setDescription(item.getDescription());
+            existingItem.setCategory_id(item.getCategory_id());
+            return new ApiResponse<>(HttpStatus.OK.value(), "Item updated successfully", repository.save(existingItem));
+        } catch (Exception e) {
+            return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error updating item: " + e.getMessage(), null);
+        }
     }
 }

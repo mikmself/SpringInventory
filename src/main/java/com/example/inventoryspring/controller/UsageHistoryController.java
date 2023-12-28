@@ -1,5 +1,6 @@
 package com.example.inventoryspring.controller;
 
+import com.example.inventoryspring.Pojo.ApiResponse;
 import com.example.inventoryspring.entity.UsageHistory;
 import com.example.inventoryspring.service.UsageHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,33 +13,33 @@ public class UsageHistoryController {
     @Autowired
     private UsageHistoryService service;
 
-    @PostMapping("/usageHistory/add")
-    public UsageHistory addUsageHistory(@RequestBody UsageHistory usageHistory) {
+    @PostMapping("/usage-history/add")
+    public ApiResponse<UsageHistory> addUsageHistory(@RequestBody UsageHistory usageHistory) {
         return service.saveUsageHistory(usageHistory);
     }
 
-    @PostMapping("/usageHistory/adds")
-    public List<UsageHistory> addUsageHistories(@RequestBody List<UsageHistory> usageHistories) {
+    @PostMapping("/usage-history/adds")
+    public ApiResponse<List<UsageHistory>> addUsageHistories(@RequestBody List<UsageHistory> usageHistories) {
         return service.saveUsageHistories(usageHistories);
     }
 
-    @GetMapping("/usageHistory")
-    public List<UsageHistory> findAllUsageHistories() {
+    @GetMapping("/usage-history")
+    public ApiResponse<List<UsageHistory>> findAllUsageHistories() {
         return service.getUsageHistories();
     }
 
-    @GetMapping("/usageHistory/id/{id}")
-    public UsageHistory findUsageHistoryById(@PathVariable int id) {
+    @GetMapping("/usage-history/id/{id}")
+    public ApiResponse<UsageHistory> findUsageHistoryById(@PathVariable int id) {
         return service.getUsageHistoryById(id);
     }
 
-    @PutMapping("/usageHistory/update")
-    public UsageHistory updateUsageHistory(@RequestBody UsageHistory usageHistory) {
+    @PutMapping("/usage-history/update")
+    public ApiResponse<UsageHistory> updateUsageHistory(@RequestBody UsageHistory usageHistory) {
         return service.updateUsageHistory(usageHistory);
     }
 
-    @DeleteMapping("/usageHistory/delete/{id}")
-    public String deleteUsageHistory(@PathVariable int id) {
+    @DeleteMapping("/usage-history/delete/{id}")
+    public ApiResponse<String> deleteUsageHistory(@PathVariable int id) {
         return service.deleteUsageHistory(id);
     }
 }
