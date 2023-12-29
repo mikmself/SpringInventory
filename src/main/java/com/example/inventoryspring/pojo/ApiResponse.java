@@ -1,4 +1,4 @@
-package com.example.inventoryspring.Pojo;
+package com.example.inventoryspring.pojo;
 
 public class ApiResponse<T> {
     private int code;

@@ -1,6 +1,6 @@
 package com.example.inventoryspring.service;
 
-import com.example.inventoryspring.Pojo.ApiResponse;
+import com.example.inventoryspring.pojo.ApiResponse;
 import com.example.inventoryspring.entity.ItemCategory;
 import com.example.inventoryspring.repository.ItemCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
